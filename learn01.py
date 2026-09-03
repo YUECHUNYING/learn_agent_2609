@@ -180,3 +180,67 @@ with open("notes.txt", "w", encoding="utf-8") as f:
 
 
 # 作业
+class NoteBook:
+    def __init__(self, filepath="notes.json"):
+        self.filepath = filepath
+    def add_note(self, note):
+       if not note.strip():
+            print("笔记内容不能为空")
+            return
+       with open(self.filepath, "a", encoding="utf-8") as f:
+            f.write(f"{note.strip()}\n")  # strip() 去掉首尾空格/换行符
+       print("笔记已保存。")
+    def list_notes(self):
+        try:
+            with open(self.filepath, "r", encoding="utf-8") as f:
+                notes = f.readlines()
+                for idx, note in enumerate(notes, 1):
+                    print(f"{idx}. {note.strip()}")
+        except FileNotFoundError:
+            print("没有找到笔记文件。")
+
+    def delete_note(self, note_index):
+        try:
+            note_index = int(note_index)
+        except ValueError:
+            print("索引必须是整数。")
+            return
+        try:
+            with open(self.filepath, "r", encoding="utf-8") as f:
+                notes = f.readlines()
+            if(note_index<=0 or note_index>len(notes)):
+                print("索引超出范围。")
+                return
+            del notes[note_index - 1]
+            # 保存修改后的笔记
+            with open(self.filepath, "w", encoding="utf-8") as f:
+                f.writelines(notes)
+            print(f"已删除第 {note_index} 条笔记。")
+        except FileNotFoundError:
+            print("没有找到笔记文件。")
+            return      
+    def search_notes(self, keyword):
+        if not keyword.strip():
+            print("搜索关键字不能为空。")
+            return
+        try:
+            with open(self.filepath, "r", encoding="utf-8") as f:
+                notes = f.readlines()
+                found = False
+                for index, note in enumerate(notes,1):
+                    if keyword in note.strip():
+                        print(f"{index}. {note.strip()}")
+                        found = True
+                    if not found:
+                        print("没有找到匹配的笔记。")    
+        except FileNotFoundError:
+            print("没有找到笔记文件。")
+
+
+if __name__ == "__main__": # 只有在直接运行该脚本时才会执行下面的代码，而在被导入时不会执行
+    note = NoteBook()
+    note.add_note("这是第一条笔记。")
+    note.add_note("这是第二条笔记。")
+    note.list_notes()
+    note.delete_note(1)
+    note.list_notes()
