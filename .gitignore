@@ -1,0 +1,19 @@
+# Python 虚拟环境
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+
+# 环境变量和密钥（永远不要提交！）
+.env
+
+# 运行时生成的测试数据
+*.json
+*.txt
+*.log
+
+# macOS / IDE
+.DS_Store
+.idea/
+.vscode/
