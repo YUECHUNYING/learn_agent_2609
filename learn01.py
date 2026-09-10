@@ -244,3 +244,38 @@ if __name__ == "__main__": # 只有在直接运行该脚本时才会执行下面
     note.list_notes()
     note.delete_note(1)
     note.list_notes()
+
+
+
+# LLM API基础
+# api 服务器的 服务窗口 发请求后回结果
+# token 模型处理文本的最小单位 
+# prompt 提示词 让模型知道你想要什么 发给模型的指令文本
+# context window 上下文窗口 模型能记住的上下文长度 模型一次能记住的最大token数
+# temperature 输出随机性  0 保守稳定 1 天马行空
+# JSON 结构化数据格式 api通信通用语言
+
+# http请求基础
+# GET 请求 用于获取数据
+# POST 请求 用于发送数据
+# PUT 请求 用于更新数据
+# DELETE 请求 用于删除数据
+
+import requests
+
+# GET 从服务器获取数据
+# resp = requests.get("https://api.github.com/user/octocat")  # 发送 GET 请求
+# print(resp.status_code)  # 输出状态码
+# data = resp.json()  
+# print(data)  # 输出响应的 JSON 数据
+
+# POST 向服务器发送数据 （LLM API都用这个）
+payload = {
+    "model":"glm-4-flash",
+    "message":[{"role":"user", "content":"你好"}]
+}
+headers = {
+    "Authorization":"Bearer YOUR_API_KEY"
+}
+resp = requests.post("https://api.openai.com/v1/chat/completions", json=payload, headers=headers)
+print(resp.json())
